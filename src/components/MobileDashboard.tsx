@@ -21,7 +21,7 @@ const MobileDashboard: React.FC = () => {
               widgetOptions={{
                 // 保持寬度 100% 以填滿網格單元
                 width: "100%",
-                height: 340, 
+                height: 400, 
               }}
             />
           </div>
