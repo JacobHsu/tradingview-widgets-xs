@@ -2,12 +2,28 @@
 
 import React, { useEffect, useRef, memo } from 'react';
 
-interface TradingViewWidgetProps {
-  symbol: string;
-  widgetOptions?: Record<string, any>;
+interface TradingViewWidgetSettings {
+  interval?: string;
+  width?: number | string;
+  isTransparent?: boolean;
+  height?: number;
+  showIntervalTabs?: boolean;
+  displayMode?: string;
+  locale?: string;
+  colorTheme?: string;
+  intervals?: string[];
+  symbol?: string; 
+  [key: string]: unknown;
 }
 
-const defaultWidgetOptions = {
+interface TradingViewWidgetProps {
+  symbol: string;
+  // 使用更具體的類型，並允許部分覆蓋，也允許傳入 scriptSrc
+  widgetOptions?: Partial<TradingViewWidgetSettings & { scriptSrc: string }>;
+}
+
+// 為 defaultWidgetOptions 添加類型註釋
+const defaultWidgetOptions: { scriptSrc: string; settings: TradingViewWidgetSettings } = {
   scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js",
   settings: {
     interval: "5m",
@@ -33,13 +49,15 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({
       return;
     }
 
-    const mergedOptions = {
+    // mergedOptions 現在類型更明確
+    const mergedOptions: TradingViewWidgetSettings = {
       ...defaultWidgetOptions.settings,
       ...widgetOptions,
       symbol: symbol,
     };
 
-    const scriptSrc = widgetOptions.scriptSrc || defaultWidgetOptions.scriptSrc;
+    // 使用可選鏈 ?. 來安全訪問 widgetOptions 的屬性
+    const scriptSrc = widgetOptions?.scriptSrc || defaultWidgetOptions.scriptSrc;
 
     const script = document.createElement('script');
     script.src = scriptSrc;
@@ -68,8 +86,9 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({
   }, [symbol, widgetOptions]);
 
   const containerStyle: React.CSSProperties = {
-    height: widgetOptions.height || defaultWidgetOptions.settings.height || 'auto',
-    width: widgetOptions.width || defaultWidgetOptions.settings.width || 'auto',
+    // 使用可選鏈 ?. 來安全訪問 widgetOptions 的屬性
+    height: widgetOptions?.height || defaultWidgetOptions.settings.height || 'auto',
+    width: widgetOptions?.width || defaultWidgetOptions.settings.width || 'auto',
   };
 
   return (
