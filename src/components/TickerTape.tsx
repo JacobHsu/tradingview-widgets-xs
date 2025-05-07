@@ -1,10 +1,37 @@
 'use client'
 
 import * as React from 'react'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
-const TickerTape = () => {
+type TickerTapeProps = {
+  theme?: 'light' | 'dark' | 'auto'
+}
+
+const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
   const container = useRef<HTMLDivElement>(null)
+  const [colorTheme, setColorTheme] = useState<'light' | 'dark'>(theme === 'auto' ? 'light' : theme)
+
+  useEffect(() => {
+    // Handle auto theme based on system preference
+    if (theme === 'auto') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+        setColorTheme(e.matches ? 'dark' : 'light')
+      }
+      
+      // Set initial value
+      handleChange(mediaQuery)
+      
+      // Listen for changes
+      mediaQuery.addEventListener('change', handleChange)
+      
+      return () => {
+        mediaQuery.removeEventListener('change', handleChange)
+      }
+    } else {
+      setColorTheme(theme)
+    }
+  }, [theme])
 
   useEffect(() => {
     if (!container.current) return
@@ -43,7 +70,7 @@ const TickerTape = () => {
       showSymbolLogo: true,
       isTransparent: true,
       displayMode: "adaptive",
-      colorTheme: "light",
+      colorTheme: colorTheme,
       locale: "zh_TW",
     });
 
@@ -61,7 +88,7 @@ const TickerTape = () => {
         }
       }
     }
-  }, [])
+  }, [colorTheme])
 
   return (
     <div className="tradingview-widget-container md:min-h-10 min-h-18" ref={container}>
