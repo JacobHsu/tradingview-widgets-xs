@@ -12,22 +12,9 @@ const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
   const [colorTheme, setColorTheme] = useState<'light' | 'dark'>(theme === 'auto' ? 'light' : theme)
 
   useEffect(() => {
-    // Handle auto theme based on system preference
     if (theme === 'auto') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
-        setColorTheme(e.matches ? 'dark' : 'light')
-      }
-      
-      // Set initial value
-      handleChange(mediaQuery)
-      
-      // Listen for changes
-      mediaQuery.addEventListener('change', handleChange)
-      
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange)
-      }
+      const hour = new Date().getHours()
+      setColorTheme(hour >= 19 || hour < 5 ? 'dark' : 'light')
     } else {
       setColorTheme(theme)
     }
@@ -97,4 +84,4 @@ const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
   );
 }
 
-export default TickerTape; 
+export default TickerTape;
