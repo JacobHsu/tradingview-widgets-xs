@@ -26,7 +26,7 @@ interface TradingViewWidgetProps {
 const defaultWidgetOptions: { scriptSrc: string; settings: TradingViewWidgetSettings } = {
   scriptSrc: "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js",
   settings: {
-    interval: "5m",
+    interval: "15m",
     width: 425,
     isTransparent: false,
     height: 380,
