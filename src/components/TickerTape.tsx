@@ -9,16 +9,6 @@ type TickerTapeProps = {
 
 const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
   const container = useRef<HTMLDivElement>(null)
-  const [colorTheme, setColorTheme] = useState<'light' | 'dark'>(theme === 'auto' ? 'light' : theme)
-
-  useEffect(() => {
-    if (theme === 'auto') {
-      const hour = new Date().getHours()
-      setColorTheme(hour >= 19 || hour < 5 ? 'dark' : 'light')
-    } else {
-      setColorTheme(theme)
-    }
-  }, [theme])
 
   useEffect(() => {
     if (!container.current) return
@@ -57,7 +47,7 @@ const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
       showSymbolLogo: true,
       isTransparent: true,
       displayMode: "adaptive",
-      colorTheme: colorTheme,
+      colorTheme: "dark",
       locale: "zh_TW",
     });
 
@@ -75,7 +65,7 @@ const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
         }
       }
     }
-  }, [colorTheme])
+  }, [])
 
   return (
     <div className="tradingview-widget-container md:min-h-10 min-h-18" ref={container}>

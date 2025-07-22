@@ -33,7 +33,7 @@ const defaultWidgetOptions: { scriptSrc: string; settings: TradingViewWidgetSett
     showIntervalTabs: true,
     displayMode: "single",
     locale: "zh_TW",
-    colorTheme: "light",
+    colorTheme: "dark",
   }
 };
 
