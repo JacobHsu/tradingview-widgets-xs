@@ -8,12 +8,8 @@ const TickerTape = dynamic(() => import('./TickerTape'), {
   loading: () => <div className="w-full h-[40px]" />
 });
 
-type ClientOnlyTickerTapeProps = {
-  theme?: 'light' | 'dark' | 'auto'
-}
-
-const ClientOnlyTickerTape = ({ theme = 'auto' }: ClientOnlyTickerTapeProps) => {
-  return <TickerTape theme={theme} />;
+const ClientOnlyTickerTape = () => {
+  return <TickerTape />;
 };
 
 export default ClientOnlyTickerTape;

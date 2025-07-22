@@ -1,13 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 
-type TickerTapeProps = {
-  theme?: 'light' | 'dark' | 'auto'
-}
-
-const TickerTape = ({ theme = 'auto' }: TickerTapeProps) => {
+const TickerTape = () => {
   const container = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
